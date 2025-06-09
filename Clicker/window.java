@@ -15,6 +15,7 @@ public class window extends JFrame implements ActionListener
     //Declare GUI variables
     JPanel mainPanel;
     
+    JButton upgradeDrillButton;
     JButton mineButton;
     
     JLabel displayMoney;
@@ -29,11 +30,10 @@ public class window extends JFrame implements ActionListener
         
         /*--SETUP PANELS--*/
         mainPanel = new JPanel();
-        mainPanel.setLayout(new FlowLayout());
-        //(FlowLayout.CENTER, 400, 400));
+        mainPanel.setLayout(new FlowLayout()); //set the layout to flow layout
         
-        mainPanel.setBackground(Color.decode("#ADD8E6"));
-        this.add(mainPanel, BorderLayout.CENTER);
+        mainPanel.setBackground(Color.decode("#ADD8E6")); //sets the background to a light blue
+        this.add(mainPanel, BorderLayout.CENTER); 
         
         /*--PANEL CONTENT--*/
         mineButton = new JButton("Mine");
@@ -42,24 +42,36 @@ public class window extends JFrame implements ActionListener
         displayMoney = new JLabel("Money: ");
         moneyTextField = new JTextField(30);
         
+        upgradeDrillButton = new JButton("Upgrade drill ($100)");
+        upgradeDrillButton.addActionListener(this);
+        
         mainPanel.add(displayMoney);
         
         mainPanel.add(mineButton);
+        mainPanel.add(upgradeDrillButton);
+
         
         this.pack();
         this.toFront();
         this.setVisible(true);
     }
     
-    MoneyManagement manager = new MoneyManagement();
+    MoneyManagement moneyManager = new MoneyManagement(); //create a moneymanagement object to track money on click
+    UpgradeManagement upgradeManager = new UpgradeManagement(moneyManager); //create upgrademanagement object to handle purchasing upgrades 
     public void actionPerformed(ActionEvent e){
         String cmd = e.getActionCommand();
         //System.out.println(cmd);
         
         switch(cmd) {
             case "Mine":
-                manager.addClickMoney();
-                displayMoney.setText("Money: $" + manager.getMoney());
+                moneyManager.addClickMoney();
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+            case "Upgrade drill ($100)":
+                upgradeManager.upgradeDrill(); //calls the upgrade drill method
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+                
         }
     }
 }

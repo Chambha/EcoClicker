@@ -16,4 +16,12 @@ public class MoneyManagement
     public int getMoney(){
         return money;
     }
+    
+    public void decreaseMoney(int amount){
+        money -= amount;
+    }
+    
+    public void increaseClickMoney(){
+        clickMoney += 1;
+    }
 }
