@@ -1,9 +1,9 @@
 
 /**
- * Write a description of class Upgrade here.
+ * Class to handle upgrades
  *
- * @author (your name)
- * @version (a version number or a date)
+ * Harvey Chamberlain
+ * 11/6/2025
  */
 public class UpgradeManagement
 {
@@ -23,4 +23,8 @@ public class UpgradeManagement
             System.out.println("Not enough money for this upgrade!");
         }
     }
+    
+    /*-- +Pollution upgrades --*/
+    
+    /*-- -Pollution upgrades --*/
 }
