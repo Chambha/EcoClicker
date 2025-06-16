@@ -1,4 +1,4 @@
-    
+        
 /**
  * Main window class.
  *
@@ -17,11 +17,14 @@ public class window extends JFrame implements ActionListener
     //Declare GUI variables
     JPanel mainPanel;
     
+    JLabel displayMoney;
+    JTextField moneyTextField;
+    
     JButton upgradeDrillButton;
     JButton mineButton;
     
-    JLabel displayMoney;
-    JTextField moneyTextField;
+    JButton employMiner;
+    JButton employButton;
     
     JLabel displayPollution;
     JTextField pollutionTextField;
@@ -40,6 +43,13 @@ public class window extends JFrame implements ActionListener
         mainPanel.setBackground(Color.decode("#ADD8E6")); //sets the background to a light blue
         this.add(mainPanel, BorderLayout.CENTER); 
         
+        //Creates a seperate panel for the labels
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+        labelPanel.setBackground(Color.decode("#ADD8E6"));
+        
+        //Creates a seperate panel for the upgrade buttons
+        
         /*--PANEL CONTENT--*/
         Border border = BorderFactory.createLineBorder(Color.black,3); //Create a black border around the panel
         
@@ -48,20 +58,24 @@ public class window extends JFrame implements ActionListener
         
         displayMoney = new JLabel("Money: ");
         moneyTextField = new JTextField(30);
+        displayMoney.setFont(new Font("Arial", Font.BOLD, 24));
         
         displayPollution = new JLabel("Pollution: ");
         pollutionTextField = new JTextField(30);
+        displayPollution.setFont(new Font("Arial", Font.BOLD, 24));
         
         upgradeDrillButton = new JButton("Upgrade drill ($100)");
         upgradeDrillButton.addActionListener(this);
         
         //Add GUI items to the panel
-        mainPanel.add(displayMoney);
-        mainPanel.add(displayPollution);
+        labelPanel.add(displayMoney);
+        labelPanel.add(displayPollution);
+        
         mainPanel.setBorder(border);
         
         mainPanel.add(mineButton);
         mainPanel.add(upgradeDrillButton);
+        mainPanel.add(labelPanel);
 
         
         this.pack();
