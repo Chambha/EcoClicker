@@ -1,15 +1,15 @@
 #BlueJ package file
-dependency1.from=UpgradeManagement
+dependency1.from=window
 dependency1.to=MoneyManagement
 dependency1.type=UsesDependency
 dependency2.from=window
-dependency2.to=MoneyManagement
+dependency2.to=UpgradeManagement
 dependency2.type=UsesDependency
 dependency3.from=window
-dependency3.to=UpgradeManagement
+dependency3.to=PollutionManagement
 dependency3.type=UsesDependency
-dependency4.from=window
-dependency4.to=PollutionManagement
+dependency4.from=UpgradeManagement
+dependency4.to=MoneyManagement
 dependency4.type=UsesDependency
 editor.fx.0.height=686
 editor.fx.0.width=1294

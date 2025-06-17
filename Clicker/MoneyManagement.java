@@ -2,7 +2,7 @@
  * Class to manage money
  *
  * Harvey Chamberlain
- * 11/6/2025
+ * 18/6/2025
  */
 public class MoneyManagement
 {
@@ -19,6 +19,10 @@ public class MoneyManagement
     
     public void decreaseMoney(int amount){
         money -= amount;
+    }
+    
+    public void increaseMoney(int amount){
+        money += amount;
     }
     
     public void increaseClickMoney(){
