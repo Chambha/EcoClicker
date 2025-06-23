@@ -2,8 +2,9 @@
  * Class to manage money
  *
  * Harvey Chamberlain
- * 18/6/2025
+ * 23/6/2025
  */
+
 public class MoneyManagement
 {
     private int money = 0;

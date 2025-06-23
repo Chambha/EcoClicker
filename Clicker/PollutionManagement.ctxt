@@ -1,10 +1,12 @@
 #BlueJ class context
 comment0.target=PollutionManagement
-comment0.text=\r\n\ Class\ to\ manage\ increase\ and\ decrease\ of\ pollution\r\n\r\n\ Harvey\ Chamberlain\r\n\ 18/6/2025\r\n
+comment0.text=\r\n\ Class\ to\ manage\ increase\ and\ decrease\ of\ pollution\r\n\r\n\ Harvey\ Chamberlain\r\n\ 23/6/2025\r\n
 comment1.params=
 comment1.target=void\ addClickPollution()
 comment2.params=
 comment2.target=int\ getPollution()
 comment3.params=amount
 comment3.target=void\ decreasePollution(int)
-numComments=4
+comment4.params=amount
+comment4.target=void\ increasePollution(int)
+numComments=5

@@ -3,7 +3,7 @@
  * Class to manage increase and decrease of pollution
  *
  * Harvey Chamberlain
- * 18/6/2025
+ * 23/6/2025
  */
 public class PollutionManagement
 {
@@ -20,5 +20,9 @@ public class PollutionManagement
     
     public void decreasePollution(int amount){
         pollution -= amount;
+    }
+    
+    public void increasePollution(int amount){
+        pollution += amount;
     }
 }
