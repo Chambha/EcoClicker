@@ -3,7 +3,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 23/6/2025
+ * 24/6/2025
  */
 
 import javax.swing.*;
@@ -96,7 +96,7 @@ public class window extends JFrame implements ActionListener
         //Loop for clean energy buttons
         JButton[] cleanButtons = new JButton[5];
         String[] cleanLabels = {"Plant Tree ($100)", "Solar Panel ($500)", "Wind Turbine ($10,000)", 
-        "Hydroelectric Dam ($20,000)", "Nuclear Power ($100,000"};
+        "Hydroelectric Dam ($20,000)", "Nuclear Reactor ($100,000)"};
         for (int i=0; i<5; i++){
             cleanButtons[i] = new JButton(cleanLabels[i]);
             cleanButtons[i].addActionListener(this);
@@ -170,6 +170,31 @@ public class window extends JFrame implements ActionListener
             
             case "Chemical Plant ($20,000)":
                 upgradeManager.buyChemicalPlant(); //calls the buyChemicalPlant method from upgradeManagement
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+                
+            case "Plant Tree ($100)":
+                upgradeManager.plantTree();
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+                
+            case "Solar Panel ($500)":
+                upgradeManager.buySolarPanel();
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+            
+            case "Wind Turbine ($10,000)":
+                upgradeManager.buyWindTurbine();
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+                
+            case "Hydroelectric Dam ($20,000)":
+                upgradeManager.buyDam();
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                break;
+                
+            case "Nuclear Reactor ($100,000)":
+                upgradeManager.buyReactor();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 break;
         }

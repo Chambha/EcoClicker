@@ -3,7 +3,7 @@
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 23/6/2025
+ * 24/6/2025
  */
 
 import javax.swing.Timer;
@@ -48,6 +48,31 @@ public class UpgradeManagement
     private int chemicalPlantCost = 20000;
     private int chemicalPlantIncome = 100;
     private Timer chemicalPlantTimer;
+    
+    //plant tree
+    private int trees = 0;
+    private int treeCost = 100;
+    //private int treePollutionDecrease = 1;
+    
+    //solar panel
+    private int solarPanels = 0;
+    private int solarPanelCost = 500;
+    private Timer solarPanelTimer;
+    
+    //wind turbine
+    private int windTurbines = 0;
+    private int windTurbineCost = 10000;
+    private Timer windTurbineTimer;
+    
+    //hydroelectric dam
+    private int dams = 0;
+    private int damCost = 20000;
+    private Timer damTimer;
+    
+    ///nuclear power
+    private int reactors = 0;
+    private int reactorCost = 10;
+    private Timer nuclearTimer;
     
     public UpgradeManagement(MoneyManagement moneyManager, PollutionManagement pollutionManager){
         this.moneyManager = moneyManager;
@@ -152,7 +177,7 @@ public class UpgradeManagement
             System.out.println("Chemical plant purchased. Total chemical plants: " + chemicalPlants);
             
             if (chemicalPlantTimer == null){
-                chemicalPlantTimer = new Timer(2000, new ActionListener(){ //Adds money every 5000ms
+                chemicalPlantTimer = new Timer(2000, new ActionListener(){ //Adds money every 2000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(chemicalPlants * chemicalPlantIncome);
                         pollutionManager.increasePollution(10); //Adds 10 pollution per second
@@ -166,4 +191,95 @@ public class UpgradeManagement
     }
     
     /*-- Decrease pollution upgrades --*/
+    public void plantTree(){
+        if(moneyManager.getMoney() >= treeCost){
+            trees++;
+            moneyManager.decreaseMoney(treeCost);
+            System.out.println("Tree planted. Total trees planted: " + trees);
+            pollutionManager.decreasePollution(1); //decrease pollution by 1 per tree
+            
+        } else {
+            System.out.println("Not enough money to plant a tree");
+        }
+    }
+    
+    public void buySolarPanel(){
+        if(moneyManager.getMoney() >= solarPanelCost){
+            solarPanels++;
+            moneyManager.decreaseMoney(solarPanelCost); //decrease money by factory cost
+            System.out.println("Solar panel purchased. Total solar panels: " + solarPanels);
+            
+            if (solarPanelTimer == null){
+                solarPanelTimer = new Timer(2000, new ActionListener(){ 
+                    public void actionPerformed(ActionEvent e){
+                        pollutionManager.decreasePollution(1 * solarPanels); //removes 1 pollution every 2000ms
+                    }
+                });
+                solarPanelTimer.start();
+            }
+        } else { 
+            System.out.println("Not enough money for this upgrade");
+        }
+    }
+    
+    public void buyWindTurbine(){
+        if(moneyManager.getMoney() >= windTurbineCost){
+            windTurbines++;
+            moneyManager.decreaseMoney(windTurbineCost); //decrease money by factory cost
+            System.out.println("Wind turbine purchased. Total turbines: " + windTurbines);
+            
+            if (windTurbineTimer == null){
+                windTurbineTimer = new Timer(5000, new ActionListener(){ 
+                    public void actionPerformed(ActionEvent e){
+                        pollutionManager.decreasePollution(50 * windTurbines); 
+                        //removes 50 pollution every 5000ms per wind turbine
+                    }
+                });
+                windTurbineTimer.start();
+            }
+        } else { 
+            System.out.println("Not enough money for this upgrade");
+        }
+    }
+    
+    public void buyDam(){
+        if(moneyManager.getMoney() >= damCost){
+            dams++;
+            moneyManager.decreaseMoney(damCost); //decrease money by dam cost
+            System.out.println("Hydroelectic dam purchased. Total dams: " + dams);
+            
+            if (damTimer == null){
+                damTimer = new Timer(2000, new ActionListener(){ 
+                    public void actionPerformed(ActionEvent e){
+                        pollutionManager.decreasePollution(10 * dams); 
+                        //removes 10 pollution every 1000ms per wind turbine
+                    }
+                });
+                damTimer.start();
+            }
+        } else { 
+            System.out.println("Not enough money for this upgrade");
+        }
+    }
+    
+    public void buyReactor(){
+        if(moneyManager.getMoney() >= reactorCost){
+            reactors++;
+            moneyManager.decreaseMoney(reactorCost); //decrease money by dam cost
+            System.out.println("Nuclear reactor purchased, good job for keeping the environment clean. Total reactors: " + reactors);
+            
+            if (nuclearTimer == null){
+                nuclearTimer = new Timer(1000, new ActionListener(){ 
+                    public void actionPerformed(ActionEvent e){
+                        pollutionManager.decreasePollution(20 * reactors); 
+                        //removes 1 pollution every 1000ms per reactor
+                    }
+                });
+                nuclearTimer.start();
+            }
+        } else { 
+            System.out.println("Not enough money for this upgrade");
+        }
+    }
+    
 }
