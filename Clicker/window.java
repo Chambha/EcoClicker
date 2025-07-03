@@ -1,15 +1,13 @@
-        
 /**
  * Main window class.
  *
  * Harvey Chamberlain
- * 24/6/2025
+ * 3/7/2025
  */
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.JLabel;
 import javax.swing.border.Border;
 
 public class window extends JFrame implements ActionListener
@@ -22,8 +20,6 @@ public class window extends JFrame implements ActionListener
     
     JButton upgradeDrillButton;
     JButton mineButton;
-    
-    //JButton upgradeButtons;
     
     JLabel displayPollution;
     JTextField pollutionTextField;
@@ -47,20 +43,43 @@ public class window extends JFrame implements ActionListener
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         labelPanel.setBackground(Color.decode("#ADD8E6"));
 
-        
         //Creates a seperate panel for the upgrade buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(0, 2, 10, 10)); // auto rows, and 2 collumns, with a 10px gap  
+        buttonPanel.setLayout(new GridLayout(0, 2, 10, 10)); // auto rows, and 2 columns, with a 10px gap  
         buttonPanel.setBackground(Color.decode("#ADD8E6"));
         buttonPanel.setPreferredSize(new Dimension(400, 150));
         buttonPanel.setMaximumSize(new Dimension(400, 150));
         
         //Creates one more panel for green upgrades
         JPanel cleanPanel = new JPanel();
-        cleanPanel.setLayout(new GridLayout(0, 2, 10, 10)); // auto rows, and 2 collumns, with a 10px gap  
+        cleanPanel.setLayout(new GridLayout(0, 2, 10, 10)); // auto rows, and 2 columns, with a 10px gap  
         cleanPanel.setBackground(Color.decode("#ADD8E6"));
         cleanPanel.setPreferredSize(new Dimension(400, 150));
         cleanPanel.setMaximumSize(new Dimension(400, 150));
+        
+        // Create labels for the upgrade sections
+        JLabel industrialLabel = new JLabel("Industrial Upgrades");
+        industrialLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        industrialLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel greenLabel = new JLabel("Green Upgrades");
+        greenLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        greenLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Container panels to hold the label and the buttons panel for industrial and green upgrades
+        JPanel industrialPanel = new JPanel();
+        industrialPanel.setLayout(new BoxLayout(industrialPanel, BoxLayout.Y_AXIS));
+        industrialPanel.setBackground(Color.decode("#ADD8E6"));
+        industrialPanel.add(industrialLabel);
+        industrialPanel.add(Box.createRigidArea(new Dimension(0,5))); // small spacing
+        industrialPanel.add(buttonPanel);
+
+        JPanel greenPanel = new JPanel();
+        greenPanel.setLayout(new BoxLayout(greenPanel, BoxLayout.Y_AXIS));
+        greenPanel.setBackground(Color.decode("#ADD8E6"));
+        greenPanel.add(greenLabel);
+        greenPanel.add(Box.createRigidArea(new Dimension(0,5))); // small spacing
+        greenPanel.add(cleanPanel);
         
         /*--PANEL CONTENT--*/
         Border border = BorderFactory.createLineBorder(Color.black,3); //Create a black border around the window
@@ -107,8 +126,10 @@ public class window extends JFrame implements ActionListener
         mainPanel.add(labelPanel);
         mainPanel.add(mineButton);
         mainPanel.add(upgradeDrillButton);
-        mainPanel.add(buttonPanel);
-        mainPanel.add(cleanPanel);
+        
+        // Add the containers with labels + buttons instead of raw button panels
+        mainPanel.add(industrialPanel);
+        mainPanel.add(greenPanel);
         
         labelPanel.add(displayMoney);
         labelPanel.add(displayPollution);
@@ -119,6 +140,7 @@ public class window extends JFrame implements ActionListener
         this.toFront();
         this.setVisible(true);
         
+        
         Timer guiTimer = new Timer(1000, new ActionListener(){ //every 1000ms update the money label
             public void actionPerformed(ActionEvent e){
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
@@ -128,10 +150,36 @@ public class window extends JFrame implements ActionListener
         guiTimer.start();
     }
     
+    public void restartGame(){
+        this.dispose(); //closes the current window
+        new window(); //creates a new window
+    }
+    
+    private boolean gameOver = false;
+    
+    public void winCondition(){
+        if (pollutionManager.getPollution() > 1000){
+            gameOver = true; 
+            System.out.println("you lose");
+            JOptionPane.showMessageDialog(this, "You lose! Pollution exceeded 100."); //game loss pop up
+            restartGame();
+        }
+        
+        if (pollutionManager.getPollution() < 10000 && moneyManager.getMoney() >= 100){
+            gameOver = true;
+            System.out.println("You win!");
+            JOptionPane.showMessageDialog(this, 
+            "You won! Succesfully obtained $100,000 dollars, and remained below 10,000 pollution"); //game win pop up
+            restartGame(); //Restarts game when you press ok
+        }
+    }
+    
+    window gameWindow = this;
     MoneyManagement moneyManager = new MoneyManagement(); //create a moneymanagement object to track money on click
     PollutionManagement pollutionManager = new PollutionManagement(); //create a pollutionmanagement object to track pollution per click
-    UpgradeManagement upgradeManager = new UpgradeManagement(moneyManager, pollutionManager); //create upgrademanagement object to handle purchasing upgrades
-        public void actionPerformed(ActionEvent e){
+    UpgradeManagement upgradeManager = new UpgradeManagement(moneyManager, pollutionManager, this); //create upgrademanagement object to handle purchasing upgrades
+
+    public void actionPerformed(ActionEvent e){
         String cmd = e.getActionCommand();
         //System.out.println(cmd);
         
@@ -141,11 +189,13 @@ public class window extends JFrame implements ActionListener
                 pollutionManager.addClickPollution();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 displayPollution.setText("Pollution: " + pollutionManager.getPollution());
+                winCondition();
                 break;
                 
             case "Upgrade drill ($100)":
                 upgradeManager.upgradeDrill(); //calls the upgrade drill method
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                winCondition();
                 break;
                 
             case "Employ Miner ($1,000)":
@@ -161,6 +211,7 @@ public class window extends JFrame implements ActionListener
             case "Factory ($10,000)":
                 upgradeManager.buyFactory(); //calls the buyFactory method from upgradeManagement
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                winCondition();
                 break;
                 
             case "Drill Oil ($15,000)":
@@ -200,3 +251,4 @@ public class window extends JFrame implements ActionListener
         }
     }
 }
+

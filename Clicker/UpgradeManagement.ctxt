@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=UpgradeManagement
-comment1.params=moneyManager\ pollutionManager
-comment1.target=UpgradeManagement(MoneyManagement,\ PollutionManagement)
+comment1.params=moneyManager\ pollutionManager\ gameWindow
+comment1.target=UpgradeManagement(MoneyManagement,\ PollutionManagement,\ window)
 comment10.params=e
 comment10.target=void\ actionPerformed(java.awt.event.ActionEvent)
 comment11.params=

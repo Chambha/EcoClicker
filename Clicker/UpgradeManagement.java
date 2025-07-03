@@ -3,7 +3,7 @@
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 24/6/2025
+ * 3/7/2025
  */
 
 import javax.swing.Timer;
@@ -74,9 +74,12 @@ public class UpgradeManagement
     private int reactorCost = 10;
     private Timer nuclearTimer;
     
-    public UpgradeManagement(MoneyManagement moneyManager, PollutionManagement pollutionManager){
+    private window gameWindow;
+    
+    public UpgradeManagement(MoneyManagement moneyManager, PollutionManagement pollutionManager, window gameWindow){
         this.moneyManager = moneyManager;
         this.pollutionManager = pollutionManager;
+        this.gameWindow = gameWindow;
     }
     
     public void upgradeDrill(){
@@ -101,6 +104,7 @@ public class UpgradeManagement
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(miners * minerIncome); //Adds 1 money per second per miner
                         pollutionManager.increasePollution(miners); //Adds one pollution per second
+                        gameWindow.winCondition();
                     }
                 });
                 minerTimer.start();
@@ -121,6 +125,7 @@ public class UpgradeManagement
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(factories * factoryIncome);
                         pollutionManager.increasePollution(5); //Adds 5 pollution per second
+                        gameWindow.winCondition();
                     }
                 });
                 factoryTimer.start();
@@ -141,6 +146,7 @@ public class UpgradeManagement
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(oilDrills * oilDrillIncome);
                         pollutionManager.increasePollution(10); //Adds 10 pollution per second
+                        gameWindow.winCondition();
                     }
                 });
                 oilDrillTimer.start();
@@ -161,6 +167,7 @@ public class UpgradeManagement
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(truckFleets * truckFleetIncome);
                         pollutionManager.increasePollution(5); //Adds 10 pollution per second
+                        gameWindow.winCondition();
                     }
                 });
                 truckFleetTimer.start();
@@ -181,6 +188,7 @@ public class UpgradeManagement
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(chemicalPlants * chemicalPlantIncome);
                         pollutionManager.increasePollution(10); //Adds 10 pollution per second
+                        gameWindow.winCondition();
                     }
                 });
                 chemicalPlantTimer.start();
