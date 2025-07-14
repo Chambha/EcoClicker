@@ -97,17 +97,23 @@ public class window extends JFrame implements ActionListener
         mineButton = new JButton("Mine");
         mineButton.addActionListener(this);
         mineButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mineButton.setToolTipText("Mine manually");
         
         upgradeDrillButton = new JButton("Upgrade drill ($100)");
         upgradeDrillButton.addActionListener(this);
         upgradeDrillButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        upgradeDrillButton.setToolTipText("+$1 for every upgrade level");
         
         //Loop for upgrade buttons
         JButton[] upgradeButtons = new JButton[5];
         String[] buttonLabels = {"Employ Miner ($1,000)", "Truck Fleet ($5,000)", "Factory ($10,000)", 
         "Drill Oil ($15,000)", "Chemical Plant ($20,000)"};
+        
+        String[] industrialToolTips = {"+$1 and +1 pollution per second", "+$30 and +5 pollution every 5 seconds", 
+        "+$10 and +5 pollution per second", "+$50 and +10 pollution every 2 seconds", "+$100 and +10 pollution every 2 seconds"};
         for (int i=0; i<5; i++){
             upgradeButtons[i] = new JButton(buttonLabels[i]);
+            upgradeButtons[i].setToolTipText(industrialToolTips[i]);
             upgradeButtons[i].addActionListener(this);
             buttonPanel.add(upgradeButtons[i]);
         }
@@ -116,8 +122,12 @@ public class window extends JFrame implements ActionListener
         JButton[] cleanButtons = new JButton[5];
         String[] cleanLabels = {"Plant Tree ($100)", "Solar Panel ($500)", "Wind Turbine ($10,000)", 
         "Hydroelectric Dam ($20,000)", "Nuclear Reactor ($100,000)"};
+        
+        String[] greenToolTips = {"-1 pollution", "-1 pollution per second", "-50 pollutuon every 5 seconds",
+        "-10 pollution every 2 seconds", "-20 pollution per second"};
         for (int i=0; i<5; i++){
             cleanButtons[i] = new JButton(cleanLabels[i]);
+            cleanButtons[i].setToolTipText(greenToolTips[i]);
             cleanButtons[i].addActionListener(this);
             cleanPanel.add(cleanButtons[i]);
         }
@@ -158,18 +168,18 @@ public class window extends JFrame implements ActionListener
     private boolean gameOver = false;
     
     public void winCondition(){
-        if (pollutionManager.getPollution() > 1000){
+        if (pollutionManager.getPollution() > 100000){
             gameOver = true; 
             System.out.println("you lose");
             JOptionPane.showMessageDialog(this, "You lose! Pollution exceeded 100."); //game loss pop up
             restartGame();
         }
         
-        if (pollutionManager.getPollution() < 10000 && moneyManager.getMoney() >= 100){
+        if (pollutionManager.getPollution() <= 0 && moneyManager.getMoney() >= 1000000){
             gameOver = true;
             System.out.println("You win!");
             JOptionPane.showMessageDialog(this, 
-            "You won! Succesfully obtained $100,000 dollars, and remained below 10,000 pollution"); //game win pop up
+            "You won! Succesfully obtained $1,000,000 dollars, and reduced to 0 pollution"); //game win pop up
             restartGame(); //Restarts game when you press ok
         }
     }

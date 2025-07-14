@@ -71,7 +71,7 @@ public class UpgradeManagement
     
     ///nuclear power
     private int reactors = 0;
-    private int reactorCost = 10;
+    private int reactorCost = 100000;
     private Timer nuclearTimer;
     
     private window gameWindow;
