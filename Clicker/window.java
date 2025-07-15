@@ -2,7 +2,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 3/7/2025
+ * 16/7/2025
  */
 
 import javax.swing.*;
@@ -24,7 +24,16 @@ public class window extends JFrame implements ActionListener
     JLabel displayPollution;
     JTextField pollutionTextField;
     
+    JProgressBar pollutionBar;
+    
+    private Timer guiTimer;
+    
     public window(){
+        gameOver = false;
+        moneyManager = new MoneyManagement();
+        pollutionManager = new PollutionManagement();
+        upgradeManager = new UpgradeManagement(moneyManager, pollutionManager, this);
+        
         setTitle("ClickerGame");
         
         this.getContentPane().setPreferredSize(new Dimension(500,500));
@@ -92,6 +101,9 @@ public class window extends JFrame implements ActionListener
         displayPollution = new JLabel("Pollution: ");
         pollutionTextField = new JTextField(30);
         displayPollution.setFont(new Font("Arial", Font.BOLD, 12));
+        
+        pollutionBar = new JProgressBar();
+        pollutionBar.setMaximum(100000);
             
         //buttons
         mineButton = new JButton("Mine");
@@ -142,7 +154,8 @@ public class window extends JFrame implements ActionListener
         mainPanel.add(greenPanel);
         
         labelPanel.add(displayMoney);
-        labelPanel.add(displayPollution);
+        //labelPanel.add(displayPollution);
+        labelPanel.add(pollutionBar);
         
         mainPanel.setBorder(border);
         
@@ -150,33 +163,47 @@ public class window extends JFrame implements ActionListener
         this.toFront();
         this.setVisible(true);
         
-        
-        Timer guiTimer = new Timer(1000, new ActionListener(){ //every 1000ms update the money label
+        guiTimer = new Timer(1000, new ActionListener(){ //every 1000ms update the money label
             public void actionPerformed(ActionEvent e){
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
-                displayPollution.setText("Pollution: " + pollutionManager.getPollution());
+                //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
+                displayPollution.setText("Pollution: ");
+                pollutionBar.setValue(pollutionManager.getPollution());
+                winCondition();
             }
         });
         guiTimer.start();
     }
     
+    private boolean gameOver = false;
+    
     public void restartGame(){
+        gameOver = true;
+        if(guiTimer != null){
+            guiTimer.stop();
+        }
+        
         this.dispose(); //closes the current window
         new window(); //creates a new window
     }
     
-    private boolean gameOver = false;
+    
     
     public void winCondition(){
-        if (pollutionManager.getPollution() > 100000){
+        if (gameOver) return;
+        
+        if (pollutionManager.getPollution() >= 100000){
             gameOver = true; 
+            guiTimer.stop();
             System.out.println("you lose");
-            JOptionPane.showMessageDialog(this, "You lose! Pollution exceeded 100."); //game loss pop up
+            JOptionPane.showMessageDialog(this, "You lose! Pollution exceeded 100,000."); //game loss pop up
             restartGame();
+            return;
         }
         
         if (pollutionManager.getPollution() <= 0 && moneyManager.getMoney() >= 1000000){
             gameOver = true;
+            guiTimer.stop();
             System.out.println("You win!");
             JOptionPane.showMessageDialog(this, 
             "You won! Succesfully obtained $1,000,000 dollars, and reduced to 0 pollution"); //game win pop up
@@ -198,7 +225,9 @@ public class window extends JFrame implements ActionListener
                 moneyManager.addClickMoney();
                 pollutionManager.addClickPollution();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
-                displayPollution.setText("Pollution: " + pollutionManager.getPollution());
+                //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
+                displayPollution.setText("Pollution: ");
+                pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
                 break;
                 

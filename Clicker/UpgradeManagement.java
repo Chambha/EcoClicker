@@ -3,7 +3,7 @@
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 3/7/2025
+ * 16/7/2025
  */
 
 import javax.swing.Timer;
@@ -289,5 +289,4 @@ public class UpgradeManagement
             System.out.println("Not enough money for this upgrade");
         }
     }
-    
 }
