@@ -2,7 +2,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 21/7/2025
+ * 22/7/2025
  */
 
 import javax.swing.*;
@@ -216,12 +216,12 @@ public class window extends JFrame implements ActionListener
             return;
         }
         
-        if (pollutionManager.getPollution() <= 0 && moneyManager.getMoney() >= 1000000){
+        if (pollutionManager.getPollution() <= 25000 && moneyManager.getMoney() >= 1000000){
             gameOver = true;
             guiTimer.stop();
             System.out.println("You win!");
             JOptionPane.showMessageDialog(this, 
-            "You won! Succesfully obtained $1,000,000 dollars, and reduced to 0 pollution"); //game win pop up
+            "You won! Succesfully obtained $1,000,000 dollars, and remained below 25000 pollution"); //game win pop up
             restartGame(); //Restarts game when you press ok
         }
     }
@@ -234,7 +234,6 @@ public class window extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e){
         String cmd = e.getActionCommand();
         //System.out.println(cmd);
-        
         switch(cmd) {
             case "Mine":
                 moneyManager.addClickMoney();
