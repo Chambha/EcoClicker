@@ -3,7 +3,7 @@
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 16/7/2025
+ * 21/7/2025
  */
 
 import javax.swing.Timer;
@@ -103,7 +103,7 @@ public class UpgradeManagement
                 minerTimer = new Timer(1000, new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(miners * minerIncome); //Adds 1 money per second per miner
-                        pollutionManager.increasePollution(miners); //Adds one pollution per second
+                        pollutionManager.increasePollution(1 * miners); //Adds one pollution per second
                         gameWindow.winCondition();
                     }
                 });
@@ -124,7 +124,7 @@ public class UpgradeManagement
                 factoryTimer = new Timer(1000, new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(factories * factoryIncome);
-                        pollutionManager.increasePollution(5); //Adds 5 pollution per second
+                        pollutionManager.increasePollution(5 * factories); //Adds 5 pollution per second per factory
                         gameWindow.winCondition();
                     }
                 });
@@ -145,7 +145,7 @@ public class UpgradeManagement
                 oilDrillTimer = new Timer(2000, new ActionListener(){ //Adds money every 2000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(oilDrills * oilDrillIncome);
-                        pollutionManager.increasePollution(10); //Adds 10 pollution per second
+                        pollutionManager.increasePollution(10 * oilDrills); //Adds 10 pollution per second
                         gameWindow.winCondition();
                     }
                 });
@@ -166,7 +166,7 @@ public class UpgradeManagement
                 truckFleetTimer = new Timer(5000, new ActionListener(){ //Adds money every 5000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(truckFleets * truckFleetIncome);
-                        pollutionManager.increasePollution(5); //Adds 10 pollution per second
+                        pollutionManager.increasePollution(5 * truckFleets); //Adds 10 pollution per second
                         gameWindow.winCondition();
                     }
                 });
@@ -187,7 +187,7 @@ public class UpgradeManagement
                 chemicalPlantTimer = new Timer(2000, new ActionListener(){ //Adds money every 2000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(chemicalPlants * chemicalPlantIncome);
-                        pollutionManager.increasePollution(10); //Adds 10 pollution per second
+                        pollutionManager.increasePollution(10 * chemicalPlants); //Adds 10 pollution per second
                         gameWindow.winCondition();
                     }
                 });

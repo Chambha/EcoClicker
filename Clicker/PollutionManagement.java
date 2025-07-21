@@ -3,12 +3,12 @@
  * Class to manage increase and decrease of pollution
  *
  * Harvey Chamberlain
- * 16/7/2025
+ * 21/7/2025
  */
 public class PollutionManagement
 {
     private int pollution = 0;
-    int clickPollution = 1000;
+    int clickPollution = 1;
     
     public void addClickPollution(){
         pollution += clickPollution;

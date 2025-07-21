@@ -2,7 +2,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 16/7/2025
+ * 21/7/2025
  */
 
 import javax.swing.*;
@@ -102,8 +102,10 @@ public class window extends JFrame implements ActionListener
         pollutionTextField = new JTextField(30);
         displayPollution.setFont(new Font("Arial", Font.BOLD, 12));
         
-        pollutionBar = new JProgressBar();
-        pollutionBar.setMaximum(100000);
+        pollutionBar = new JProgressBar(); 
+        pollutionBar.setMaximum(100000); //set max value to 100,000
+        pollutionBar.setStringPainted(true); //allows progress bar to contain words
+        pollutionBar.setString("Pollution:");
             
         //buttons
         mineButton = new JButton("Mine");
@@ -167,7 +169,20 @@ public class window extends JFrame implements ActionListener
             public void actionPerformed(ActionEvent e){
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
-                displayPollution.setText("Pollution: ");
+                if(pollutionManager.getPollution() >= 25000 && pollutionManager.getPollution() < 50000){ 
+                    //if pollution is between 25,000 and 50,000, progress bar is yellow
+                    pollutionBar.setForeground(Color.YELLOW);
+                } else if (pollutionManager.getPollution() >= 50000 && pollutionManager.getPollution() < 75000) {
+                    //if pollution is between 50,000 and 75,000, progress bar is orange
+                    pollutionBar.setForeground(Color.ORANGE);
+                } else if (pollutionManager.getPollution() >= 75000 && pollutionManager.getPollution() < 100000) {
+                    //if pollution is between 75,000 and 100,000, progress bar is red
+                    pollutionBar.setForeground(Color.RED);
+                } else { 
+                    //anything below 25,000 pollution, progress bar is green
+                    pollutionBar.setForeground(Color.GREEN);
+                }
+                
                 pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
             }
@@ -226,7 +241,6 @@ public class window extends JFrame implements ActionListener
                 pollutionManager.addClickPollution();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
-                displayPollution.setText("Pollution: ");
                 pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
                 break;
@@ -234,58 +248,69 @@ public class window extends JFrame implements ActionListener
             case "Upgrade drill ($100)":
                 upgradeManager.upgradeDrill(); //calls the upgrade drill method
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
                 break;
                 
             case "Employ Miner ($1,000)":
                 upgradeManager.employMiner(); //calls the employMiner method from upgradeManagement
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Truck Fleet ($5,000)":
                 upgradeManager.buyTruckFleet(); //calls the buyTruckFleet method from upgradeManagement
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Factory ($10,000)":
                 upgradeManager.buyFactory(); //calls the buyFactory method from upgradeManagement
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
                 break;
                 
             case "Drill Oil ($15,000)":
                 upgradeManager.buyOilDrill(); //calls the buyFactory method from upgradeManagement
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
             
             case "Chemical Plant ($20,000)":
                 upgradeManager.buyChemicalPlant(); //calls the buyChemicalPlant method from upgradeManagement
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Plant Tree ($100)":
                 upgradeManager.plantTree();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Solar Panel ($500)":
                 upgradeManager.buySolarPanel();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
             
             case "Wind Turbine ($10,000)":
                 upgradeManager.buyWindTurbine();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Hydroelectric Dam ($20,000)":
                 upgradeManager.buyDam();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Nuclear Reactor ($100,000)":
                 upgradeManager.buyReactor();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
                 break;
         }
     }
