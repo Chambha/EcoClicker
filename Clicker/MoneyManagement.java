@@ -2,13 +2,13 @@
  * Class to manage money
  *
  * Harvey Chamberlain
- * 22/7/2025
+ * 23/7/2025
  */
 
 public class MoneyManagement
 {
     private int money = 0;
-    int clickMoney = 10000;
+    int clickMoney = 1;
     
     public void addClickMoney(){
         money += clickMoney;

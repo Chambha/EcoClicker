@@ -2,7 +2,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 22/7/2025
+ * 23/7/2025
  */
 
 import javax.swing.*;
@@ -20,6 +20,7 @@ public class window extends JFrame implements ActionListener
     
     JButton upgradeDrillButton;
     JButton mineButton;
+    JButton helpButton;
     
     JLabel displayPollution;
     JTextField pollutionTextField;
@@ -118,6 +119,11 @@ public class window extends JFrame implements ActionListener
         upgradeDrillButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         upgradeDrillButton.setToolTipText("+$1 for every upgrade level");
         
+        helpButton = new JButton("?");
+        helpButton.addActionListener(this);
+        helpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        helpButton.setToolTipText("<html>Welcome to EcoClicker! Your goal is to reach $1,000,000 while staying in the pollution green zone under (25,000)<p>- Buy industrial upgrades to generate money, be careful though, they make a lot of pollution!<p>- Buy green upgrades to decrease pollution");
+            
         //Loop for upgrade buttons
         JButton[] upgradeButtons = new JButton[5];
         String[] buttonLabels = {"Employ Miner ($1,000)", "Truck Fleet ($5,000)", "Factory ($10,000)", 
@@ -150,6 +156,7 @@ public class window extends JFrame implements ActionListener
         mainPanel.add(labelPanel);
         mainPanel.add(mineButton);
         mainPanel.add(upgradeDrillButton);
+        mainPanel.add(helpButton);
         
         // Add the containers with labels + buttons instead of raw button panels
         mainPanel.add(industrialPanel);
