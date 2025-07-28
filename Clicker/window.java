@@ -2,7 +2,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 23/7/2025
+ * 28/7/2025
  */
 
 import javax.swing.*;
@@ -109,21 +109,31 @@ public class window extends JFrame implements ActionListener
         pollutionBar.setString("Pollution:");
             
         //buttons
-        mineButton = new JButton("Mine");
+        ImageIcon mineIcon = new ImageIcon("images/pickaxe.jpg");
+        
+        Image scaledImage = mineIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH); 
+        
+        mineButton = new JButton("");
+        
+        mineButton.setPreferredSize(new Dimension(100,50));
+        mineButton.setIcon(new ImageIcon(scaledImage));
+        
         mineButton.addActionListener(this);
         mineButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mineButton.setToolTipText("Mine manually");
         
+        
         upgradeDrillButton = new JButton("Upgrade drill ($100)");
         upgradeDrillButton.addActionListener(this);
         upgradeDrillButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        upgradeDrillButton.setToolTipText("+$1 for every upgrade level");
+        upgradeDrillButton.setToolTipText("Increases money by +$1 every time you mine");
         
         helpButton = new JButton("?");
         helpButton.addActionListener(this);
         helpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        helpButton.setToolTipText("<html>Welcome to EcoClicker! Your goal is to reach $1,000,000 while staying in the pollution green zone under (25,000)<p>- Buy industrial upgrades to generate money, be careful though, they make a lot of pollution!<p>- Buy green upgrades to decrease pollution");
-            
+        helpButton.setToolTipText("<html>Welcome to EcoClicker! Your goal is to reach $1,000,000 while staying in the pollution green zone under (25,000)<p>- Buy industrial upgrades to generate money, be careful though, they make a lot of pollution!<p>- Buy green upgrades to decrease pollution<p>- Stats are displayed when you hover your mouse over any upgrade");
+        ToolTipManager.sharedInstance().setDismissDelay(30000000); //Makes tool tips stay visible 
+        
         //Loop for upgrade buttons
         JButton[] upgradeButtons = new JButton[5];
         String[] buttonLabels = {"Employ Miner ($1,000)", "Truck Fleet ($5,000)", "Factory ($10,000)", 
@@ -143,7 +153,7 @@ public class window extends JFrame implements ActionListener
         String[] cleanLabels = {"Plant Tree ($100)", "Solar Panel ($500)", "Wind Turbine ($10,000)", 
         "Hydroelectric Dam ($20,000)", "Nuclear Reactor ($100,000)"};
         
-        String[] greenToolTips = {"-1 pollution", "-1 pollution per second", "-50 pollutuon every 5 seconds",
+        String[] greenToolTips = {"-1 pollution", "-1 pollution per second", "-20 pollutuon every 5 seconds",
         "-10 pollution every 2 seconds", "-20 pollution per second"};
         for (int i=0; i<5; i++){
             cleanButtons[i] = new JButton(cleanLabels[i]);
@@ -242,7 +252,7 @@ public class window extends JFrame implements ActionListener
         String cmd = e.getActionCommand();
         //System.out.println(cmd);
         switch(cmd) {
-            case "Mine":
+            case "":
                 moneyManager.addClickMoney();
                 pollutionManager.addClickPollution();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());

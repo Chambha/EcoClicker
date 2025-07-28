@@ -3,7 +3,7 @@
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 23/7/2025
+ * 28/7/2025
  */
 
 import javax.swing.Timer;
@@ -16,6 +16,7 @@ public class UpgradeManagement
     private MoneyManagement moneyManager;
     private PollutionManagement pollutionManager;
     private int drillCost = 100;
+    private int numDrills = 0;
     
     private Timer incomeTimer;
     
@@ -86,7 +87,9 @@ public class UpgradeManagement
         if(moneyManager.getMoney() >= drillCost){
             moneyManager.decreaseMoney(drillCost);
             moneyManager.increaseClickMoney();
-            System.out.println("Drill upgraded");
+            
+            numDrills++;
+            System.out.println("Drill upgraded. Current drill level: " + numDrills);
         } else { 
             System.out.println("Not enough money for this upgrade!");
         }
@@ -239,8 +242,8 @@ public class UpgradeManagement
             if (windTurbineTimer == null){
                 windTurbineTimer = new Timer(5000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
-                        pollutionManager.decreasePollution(50 * windTurbines); 
-                        //removes 50 pollution every 5000ms per wind turbine
+                        pollutionManager.decreasePollution(2 * windTurbines); 
+                        //removes 20 pollution every 5000ms per wind turbine
                     }
                 });
                 windTurbineTimer.start();
