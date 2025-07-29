@@ -2,7 +2,7 @@
  * Main window class.
  *
  * Harvey Chamberlain
- * 28/7/2025
+ * 30/7/2025
  */
 
 import javax.swing.*;
@@ -25,6 +25,9 @@ public class window extends JFrame implements ActionListener
     JLabel displayPollution;
     JTextField pollutionTextField;
     
+    JLabel moneyPerSec;
+    JTextField moneyPerSecTextField;
+    
     JProgressBar pollutionBar;
     
     private Timer guiTimer;
@@ -40,6 +43,7 @@ public class window extends JFrame implements ActionListener
         this.getContentPane().setPreferredSize(new Dimension(500,500));
         
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
         
         /*--SETUP PANELS--*/
         mainPanel = new JPanel();
@@ -103,25 +107,24 @@ public class window extends JFrame implements ActionListener
         pollutionTextField = new JTextField(30);
         displayPollution.setFont(new Font("Arial", Font.BOLD, 12));
         
+        JLabel moneyPerSec = new JLabel("Money per second: ");
+        moneyPerSecTextField = new JTextField(30);
+        moneyPerSec.setFont(new Font("Arial", Font.BOLD, 12));
+        
         pollutionBar = new JProgressBar(); 
         pollutionBar.setMaximum(100000); //set max value to 100,000
         pollutionBar.setStringPainted(true); //allows progress bar to contain words
         pollutionBar.setString("Pollution:");
             
         //buttons
-        ImageIcon mineIcon = new ImageIcon("images/pickaxe.jpg");
-        
-        Image scaledImage = mineIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH); 
-        
+        ImageIcon mineIcon = new ImageIcon("images/pickaxe.jpg"); 
+        Image scaledImage = mineIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH); //scale the image down
         mineButton = new JButton("");
-        
-        mineButton.setPreferredSize(new Dimension(100,50));
-        mineButton.setIcon(new ImageIcon(scaledImage));
-        
+        mineButton.setPreferredSize(new Dimension(50,40)); //set new button dimension
+        mineButton.setIcon(new ImageIcon(scaledImage)); //set the button icon to the image
         mineButton.addActionListener(this);
         mineButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mineButton.setToolTipText("Mine manually");
-        
         
         upgradeDrillButton = new JButton("Upgrade drill ($100)");
         upgradeDrillButton.addActionListener(this);
@@ -131,7 +134,7 @@ public class window extends JFrame implements ActionListener
         helpButton = new JButton("?");
         helpButton.addActionListener(this);
         helpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        helpButton.setToolTipText("<html>Welcome to EcoClicker! Your goal is to reach $1,000,000 while staying in the pollution green zone under (25,000)<p>- Buy industrial upgrades to generate money, be careful though, they make a lot of pollution!<p>- Buy green upgrades to decrease pollution<p>- Stats are displayed when you hover your mouse over any upgrade");
+        helpButton.setToolTipText("<html>Welcome to EcoClicker! Your goal is to reach $1,000,000 while staying in the pollution green zone under (25,000)<p>- Click the pickaxe to get money<p>- Buy industrial upgrades to generate money automatically, be careful though, they make a lot of pollution!<p>- Buy green upgrades to decrease pollution<p>- Stats are displayed when you hover your mouse over any upgrade");
         ToolTipManager.sharedInstance().setDismissDelay(30000000); //Makes tool tips stay visible 
         
         //Loop for upgrade buttons
@@ -174,7 +177,9 @@ public class window extends JFrame implements ActionListener
         
         labelPanel.add(displayMoney);
         //labelPanel.add(displayPollution);
+        labelPanel.add(moneyPerSec);
         labelPanel.add(pollutionBar);
+        
         
         mainPanel.setBorder(border);
         
@@ -185,6 +190,8 @@ public class window extends JFrame implements ActionListener
         guiTimer = new Timer(1000, new ActionListener(){ //every 1000ms update the money label
             public void actionPerformed(ActionEvent e){
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
+                
+                moneyPerSec.setText("Money per sec: $" + upgradeManager.getMoneyPerSec());
                 //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
                 if(pollutionManager.getPollution() >= 25000 && pollutionManager.getPollution() < 50000){ 
                     //if pollution is between 25,000 and 50,000, progress bar is yellow
@@ -218,8 +225,6 @@ public class window extends JFrame implements ActionListener
         this.dispose(); //closes the current window
         new window(); //creates a new window
     }
-    
-    
     
     public void winCondition(){
         if (gameOver) return;

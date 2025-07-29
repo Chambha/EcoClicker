@@ -3,7 +3,7 @@
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 28/7/2025
+ * 30/7/2025
  */
 
 import javax.swing.Timer;
@@ -76,6 +76,21 @@ public class UpgradeManagement
     private Timer nuclearTimer;
     
     private window gameWindow;
+    
+    public int getMoneyPerSec(){
+        int total = 0;
+        
+        total += miners * minerIncome;
+        total += factories * factoryIncome;
+        
+        total += truckFleets * truckFleetIncome / 5;
+        
+        total += oilDrills * oilDrillIncome / 2;
+        
+        total += chemicalPlants * chemicalPlantIncome / 2;
+        
+        return total;
+    }
     
     public UpgradeManagement(MoneyManagement moneyManager, PollutionManagement pollutionManager, window gameWindow){
         this.moneyManager = moneyManager;
