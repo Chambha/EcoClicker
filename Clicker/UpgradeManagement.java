@@ -50,6 +50,12 @@ public class UpgradeManagement
     private int chemicalPlantIncome = 100;
     private Timer chemicalPlantTimer;
     
+    //Research lab upgrades
+    private int researchLabs = 0;
+    private int researchLabCost = 100000;
+    private int researchLabIncome = 200;
+    private Timer researchLabTimer;
+    
     //plant tree
     private int trees = 0;
     private int treeCost = 100;
@@ -70,6 +76,11 @@ public class UpgradeManagement
     private int damCost = 20000;
     private Timer damTimer;
     
+    //Geothermal plant
+    private int geoPlants = 0;
+    private int geoPlantCost = 50000;
+    private Timer geoPlantTimer;
+    
     ///nuclear power
     private int reactors = 0;
     private int reactorCost = 100000;
@@ -82,8 +93,9 @@ public class UpgradeManagement
         
         total += miners * minerIncome;
         total += factories * factoryIncome;
+        total += researchLabs * researchLabIncome;
         
-        total += truckFleets * truckFleetIncome / 5;
+        total += truckFleets * truckFleetIncome / 5; 
         
         total += oilDrills * oilDrillIncome / 2;
         
@@ -205,11 +217,32 @@ public class UpgradeManagement
                 chemicalPlantTimer = new Timer(2000, new ActionListener(){ //Adds money every 2000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(chemicalPlants * chemicalPlantIncome);
-                        pollutionManager.increasePollution(10 * chemicalPlants); //Adds 10 pollution per second
+                        pollutionManager.increasePollution(10 * chemicalPlants); //Adds 10 pollution every 2 second
                         gameWindow.winCondition();
                     }
                 });
                 chemicalPlantTimer.start();
+            }
+        } else { 
+            System.out.println("Not enough money for this upgrade");
+        }
+    }
+    
+    public void buyResearchLab(){
+        if(moneyManager.getMoney() >= researchLabCost){
+            researchLabs++;
+            moneyManager.decreaseMoney(researchLabCost); //decrease money by factory cost
+            System.out.println("Research lab purchaed... upgrading tech... total labs: " + researchLabs);
+            
+            if (researchLabTimer == null){
+                researchLabTimer = new Timer(1000, new ActionListener(){ //Adds money every 1000ms
+                    public void actionPerformed(ActionEvent e){
+                        moneyManager.increaseMoney(researchLabs * researchLabIncome);
+                        pollutionManager.increasePollution(15 * researchLabs); //Adds 15 pollution per second
+                        gameWindow.winCondition();
+                    }
+                });
+                researchLabTimer.start();
             }
         } else { 
             System.out.println("Not enough money for this upgrade");
@@ -278,7 +311,7 @@ public class UpgradeManagement
                 damTimer = new Timer(2000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
                         pollutionManager.decreasePollution(10 * dams); 
-                        //removes 10 pollution every 1000ms per wind turbine
+                        //removes 10 pollution every 2000ms per dam
                     }
                 });
                 damTimer.start();
@@ -288,17 +321,37 @@ public class UpgradeManagement
         }
     }
     
+    public void buyGeoPlant(){
+        if(moneyManager.getMoney() >= geoPlantCost){
+            geoPlants++;
+            moneyManager.decreaseMoney(geoPlantCost); //decrease money by geoPlant cost
+            System.out.println("Geothermal plant purchased. Total plants: " + geoPlants);
+            
+            if (geoPlantTimer == null){
+                geoPlantTimer = new Timer(1000, new ActionListener(){ 
+                    public void actionPerformed(ActionEvent e){
+                        pollutionManager.decreasePollution(15 * geoPlants); 
+                        //removes 15 pollution every 1000ms per geo plant
+                    }
+                });
+                geoPlantTimer.start();
+            }
+        } else { 
+            System.out.println("Not enough money for this upgrade");
+        }
+    }
+    
     public void buyReactor(){
         if(moneyManager.getMoney() >= reactorCost){
             reactors++;
-            moneyManager.decreaseMoney(reactorCost); //decrease money by dam cost
+            moneyManager.decreaseMoney(reactorCost); //decrease money by Reacor cost
             System.out.println("Nuclear reactor purchased, good job for keeping the environment clean. Total reactors: " + reactors);
             
             if (nuclearTimer == null){
                 nuclearTimer = new Timer(1000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
-                        pollutionManager.decreasePollution(20 * reactors); 
-                        //removes 1 pollution every 1000ms per reactor
+                        pollutionManager.decreasePollution(35 * reactors); 
+                        //removes 35 pollution every 1000ms per reactor
                     }
                 });
                 nuclearTimer.start();

@@ -8,7 +8,10 @@
 public class PollutionManagement
 {
     private int pollution = 0;
-    int clickPollution = 1;
+    
+    //<!> NOTE FOR MARKERS <!>
+    // Change this int to a higher value when testing pollution levels
+    double clickPollution = 1;
     
     public void addClickPollution(){
         pollution += clickPollution;

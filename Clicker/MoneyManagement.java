@@ -8,6 +8,9 @@
 public class MoneyManagement
 {
     private int money = 0;
+    
+    // <!> NOTE FOR MARKERS <!>
+    // Change this int to a higher value to progress through the game faster
     int clickMoney = 1;
     
     public void addClickMoney(){

@@ -138,13 +138,14 @@ public class window extends JFrame implements ActionListener
         ToolTipManager.sharedInstance().setDismissDelay(30000000); //Makes tool tips stay visible 
         
         //Loop for upgrade buttons
-        JButton[] upgradeButtons = new JButton[5];
+        JButton[] upgradeButtons = new JButton[6];
         String[] buttonLabels = {"Employ Miner ($1,000)", "Truck Fleet ($5,000)", "Factory ($10,000)", 
-        "Drill Oil ($15,000)", "Chemical Plant ($20,000)"};
+        "Drill Oil ($15,000)", "Chemical Plant ($20,000)", "Research Lab ($100,000)"};
         
         String[] industrialToolTips = {"+$1 and +1 pollution per second", "+$30 and +5 pollution every 5 seconds", 
-        "+$10 and +5 pollution per second", "+$50 and +10 pollution every 2 seconds", "+$100 and +10 pollution every 2 seconds"};
-        for (int i=0; i<5; i++){
+        "+$10 and +5 pollution per second", "+$50 and +10 pollution every 2 seconds", "+$100 and +10 pollution every 2 seconds", 
+        "+$200 and +15 pollution per second"};
+        for (int i=0; i<6; i++){
             upgradeButtons[i] = new JButton(buttonLabels[i]);
             upgradeButtons[i].setToolTipText(industrialToolTips[i]);
             upgradeButtons[i].addActionListener(this);
@@ -152,13 +153,13 @@ public class window extends JFrame implements ActionListener
         }
             
         //Loop for clean energy buttons
-        JButton[] cleanButtons = new JButton[5];
+        JButton[] cleanButtons = new JButton[6];
         String[] cleanLabels = {"Plant Tree ($100)", "Solar Panel ($500)", "Wind Turbine ($10,000)", 
-        "Hydroelectric Dam ($20,000)", "Nuclear Reactor ($100,000)"};
+        "Hydroelectric Dam ($20,000)", "Geothermal Plant ($50,000)", "Nuclear Reactor ($100,000)"};
         
         String[] greenToolTips = {"-1 pollution", "-1 pollution per second", "-20 pollutuon every 5 seconds",
-        "-10 pollution every 2 seconds", "-20 pollution per second"};
-        for (int i=0; i<5; i++){
+        "-10 pollution every 2 seconds", "-15 pollution per second", "-35 pollution per second",};
+        for (int i=0; i<6; i++){
             cleanButtons[i] = new JButton(cleanLabels[i]);
             cleanButtons[i].setToolTipText(greenToolTips[i]);
             cleanButtons[i].addActionListener(this);
@@ -176,10 +177,8 @@ public class window extends JFrame implements ActionListener
         mainPanel.add(greenPanel);
         
         labelPanel.add(displayMoney);
-        //labelPanel.add(displayPollution);
         labelPanel.add(moneyPerSec);
         labelPanel.add(pollutionBar);
-        
         
         mainPanel.setBorder(border);
         
@@ -187,7 +186,7 @@ public class window extends JFrame implements ActionListener
         this.toFront();
         this.setVisible(true);
         
-        guiTimer = new Timer(1000, new ActionListener(){ //every 1000ms update the money label
+        guiTimer = new Timer(1000, new ActionListener(){ //every 1000ms update the money label and pollution bar
             public void actionPerformed(ActionEvent e){
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 
@@ -304,6 +303,12 @@ public class window extends JFrame implements ActionListener
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
+            case "Research Lab ($100,000)":
+                upgradeManager.buyResearchLab(); //calls the buyChemicalPlant method from upgradeManagement
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
+                break;
+                
             case "Plant Tree ($100)":
                 upgradeManager.plantTree();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
@@ -324,6 +329,12 @@ public class window extends JFrame implements ActionListener
                 
             case "Hydroelectric Dam ($20,000)":
                 upgradeManager.buyDam();
+                displayMoney.setText("Money: $" + moneyManager.getMoney());
+                pollutionBar.setValue(pollutionManager.getPollution());
+                break;
+                
+            case "Geothermal Plant ($50,000)":
+                upgradeManager.buyGeoPlant();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
