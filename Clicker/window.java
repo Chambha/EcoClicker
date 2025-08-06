@@ -1,8 +1,8 @@
 /**
- * Main window class.
+ * Main window class for GUI and handing gameplay.
  *
  * Harvey Chamberlain
- * 30/7/2025
+ * 6/8/2025
  */
 
 import javax.swing.*;
@@ -85,14 +85,14 @@ public class window extends JFrame implements ActionListener
         industrialPanel.setLayout(new BoxLayout(industrialPanel, BoxLayout.Y_AXIS));
         industrialPanel.setBackground(Color.decode("#ADD8E6"));
         industrialPanel.add(industrialLabel);
-        industrialPanel.add(Box.createRigidArea(new Dimension(0,5))); // small spacing
+        industrialPanel.add(Box.createRigidArea(new Dimension(0,5)));
         industrialPanel.add(buttonPanel);
 
         JPanel greenPanel = new JPanel();
         greenPanel.setLayout(new BoxLayout(greenPanel, BoxLayout.Y_AXIS));
         greenPanel.setBackground(Color.decode("#ADD8E6"));
         greenPanel.add(greenLabel);
-        greenPanel.add(Box.createRigidArea(new Dimension(0,5))); // small spacing
+        greenPanel.add(Box.createRigidArea(new Dimension(0,5))); 
         greenPanel.add(cleanPanel);
         
         /*--PANEL CONTENT--*/
@@ -117,11 +117,11 @@ public class window extends JFrame implements ActionListener
         pollutionBar.setString("Pollution:");
             
         //buttons
-        ImageIcon mineIcon = new ImageIcon("images/pickaxe.jpg"); 
+        ImageIcon mineIcon = new ImageIcon("images/pickaxe.jpg"); //Locate file path for the image
         Image scaledImage = mineIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH); //scale the image down
         mineButton = new JButton("");
         mineButton.setPreferredSize(new Dimension(50,40)); //set new button dimension
-        mineButton.setIcon(new ImageIcon(scaledImage)); //set the button icon to the image
+        mineButton.setIcon(new ImageIcon(scaledImage)); //set the button icon to the scaled image
         mineButton.addActionListener(this);
         mineButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mineButton.setToolTipText("Mine manually");
@@ -134,14 +134,19 @@ public class window extends JFrame implements ActionListener
         helpButton = new JButton("?");
         helpButton.addActionListener(this);
         helpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        //Set ? button tool tip
         helpButton.setToolTipText("<html>Welcome to EcoClicker! Your goal is to reach $1,000,000 while staying in the pollution green zone under (25,000)<p>- Click the pickaxe to get money<p>- Buy industrial upgrades to generate money automatically, be careful though, they make a lot of pollution!<p>- Buy green upgrades to decrease pollution<p>- Stats are displayed when you hover your mouse over any upgrade");
         ToolTipManager.sharedInstance().setDismissDelay(30000000); //Makes tool tips stay visible 
         
         //Loop for upgrade buttons
         JButton[] upgradeButtons = new JButton[6];
+        
+        //Array of industrial button labels
         String[] buttonLabels = {"Employ Miner ($1,000)", "Truck Fleet ($5,000)", "Factory ($10,000)", 
         "Drill Oil ($15,000)", "Chemical Plant ($20,000)", "Research Lab ($100,000)"};
         
+        //Array of tool tips
         String[] industrialToolTips = {"+$1 and +1 pollution per second", "+$30 and +5 pollution every 5 seconds", 
         "+$10 and +5 pollution per second", "+$50 and +10 pollution every 2 seconds", "+$100 and +10 pollution every 2 seconds", 
         "+$200 and +15 pollution per second"};
@@ -154,9 +159,12 @@ public class window extends JFrame implements ActionListener
             
         //Loop for clean energy buttons
         JButton[] cleanButtons = new JButton[6];
-        String[] cleanLabels = {"Plant Tree ($100)", "Solar Panel ($500)", "Wind Turbine ($10,000)", 
-        "Hydroelectric Dam ($20,000)", "Geothermal Plant ($50,000)", "Nuclear Reactor ($100,000)"};
         
+        //Array of green button labels
+        String[] cleanLabels = {"Plant Tree ($100)", "Solar Panel ($500)", "Wind Turbine ($10,000)", 
+        "Electric Dam ($20,000)", "Geothermal Plant ($50,000)", "Nuclear Reactor ($100,000)"};
+        
+        //Array of tool tips
         String[] greenToolTips = {"-1 pollution", "-1 pollution per second", "-20 pollutuon every 5 seconds",
         "-10 pollution every 2 seconds", "-15 pollution per second", "-35 pollution per second",};
         for (int i=0; i<6; i++){
@@ -191,7 +199,7 @@ public class window extends JFrame implements ActionListener
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 
                 moneyPerSec.setText("Money per sec: $" + upgradeManager.getMoneyPerSec());
-                //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
+                
                 if(pollutionManager.getPollution() >= 25000 && pollutionManager.getPollution() < 50000){ 
                     //if pollution is between 25,000 and 50,000, progress bar is yellow
                     pollutionBar.setForeground(Color.YELLOW);
@@ -254,13 +262,12 @@ public class window extends JFrame implements ActionListener
 
     public void actionPerformed(ActionEvent e){
         String cmd = e.getActionCommand();
-        //System.out.println(cmd);
+        
         switch(cmd) {
-            case "":
+            case "": //Case for the main mine button as it has no label
                 moneyManager.addClickMoney();
                 pollutionManager.addClickPollution();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
-                //displayPollution.setText("Pollution: " + pollutionManager.getPollution());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
                 break;
@@ -274,37 +281,37 @@ public class window extends JFrame implements ActionListener
                 
             case "Employ Miner ($1,000)":
                 upgradeManager.employMiner(); //calls the employMiner method from upgradeManagement
-                displayMoney.setText("Money: $" + moneyManager.getMoney());
-                pollutionBar.setValue(pollutionManager.getPollution());
+                displayMoney.setText("Money: $" + moneyManager.getMoney()); 
+                pollutionBar.setValue(pollutionManager.getPollution()); //updates the value of the pollution bar
                 break;
                 
             case "Truck Fleet ($5,000)":
-                upgradeManager.buyTruckFleet(); //calls the buyTruckFleet method from upgradeManagement
+                upgradeManager.buyTruckFleet(); 
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Factory ($10,000)":
-                upgradeManager.buyFactory(); //calls the buyFactory method from upgradeManagement
+                upgradeManager.buyFactory();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 winCondition();
                 break;
                 
             case "Drill Oil ($15,000)":
-                upgradeManager.buyOilDrill(); //calls the buyFactory method from upgradeManagement
+                upgradeManager.buyOilDrill(); 
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
             
             case "Chemical Plant ($20,000)":
-                upgradeManager.buyChemicalPlant(); //calls the buyChemicalPlant method from upgradeManagement
+                upgradeManager.buyChemicalPlant(); 
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
             case "Research Lab ($100,000)":
-                upgradeManager.buyResearchLab(); //calls the buyChemicalPlant method from upgradeManagement
+                upgradeManager.buyResearchLab();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
@@ -327,7 +334,7 @@ public class window extends JFrame implements ActionListener
                 pollutionBar.setValue(pollutionManager.getPollution());
                 break;
                 
-            case "Hydroelectric Dam ($20,000)":
+            case "Electric Dam ($20,000)":
                 upgradeManager.buyDam();
                 displayMoney.setText("Money: $" + moneyManager.getMoney());
                 pollutionBar.setValue(pollutionManager.getPollution());

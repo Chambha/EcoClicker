@@ -3,7 +3,7 @@
  * Class to manage increase and decrease of pollution
  *
  * Harvey Chamberlain
- * 30/7/2025
+ * 6/8/2025
  */
 public class PollutionManagement
 {
@@ -11,7 +11,7 @@ public class PollutionManagement
     
     //<!> NOTE FOR MARKERS <!>
     // Change this int to a higher value when testing pollution levels
-    double clickPollution = 1;
+    int clickPollution = 1;
     
     public void addClickPollution(){
         pollution += clickPollution;

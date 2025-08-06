@@ -1,9 +1,8 @@
-    
 /**
  * Class to handle upgrades
  *
  * Harvey Chamberlain
- * 30/7/2025
+ * 6/8/2025
  */
 
 import javax.swing.Timer;
@@ -59,7 +58,6 @@ public class UpgradeManagement
     //plant tree
     private int trees = 0;
     private int treeCost = 100;
-    //private int treePollutionDecrease = 1;
     
     //solar panel
     private int solarPanels = 0;
@@ -95,6 +93,7 @@ public class UpgradeManagement
         total += factories * factoryIncome;
         total += researchLabs * researchLabIncome;
         
+        //Divide totals to get money per second
         total += truckFleets * truckFleetIncome / 5; 
         
         total += oilDrills * oilDrillIncome / 2;
@@ -126,14 +125,14 @@ public class UpgradeManagement
     public void employMiner(){
         if(moneyManager.getMoney() >= minerCost){
             miners++;
-            moneyManager.decreaseMoney(minerCost);
+            moneyManager.decreaseMoney(minerCost); //Decrease money by miner cost
             System.out.println("Miner hired. Total employees: " + miners);
             
             if (minerTimer == null){
                 minerTimer = new Timer(1000, new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(miners * minerIncome); //Adds 1 money per second per miner
-                        pollutionManager.increasePollution(1 * miners); //Adds one pollution per second
+                        pollutionManager.increasePollution(1 * miners); //Adds one pollution per second per miner
                         gameWindow.winCondition();
                     }
                 });
@@ -147,14 +146,14 @@ public class UpgradeManagement
     public void buyFactory(){
         if(moneyManager.getMoney() >= factoryCost){
             factories++;
-            moneyManager.decreaseMoney(factoryCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(factoryCost);
             System.out.println("Factory purchased. Total factories: " + factories);
             
             if (factoryTimer == null){
                 factoryTimer = new Timer(1000, new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(factories * factoryIncome);
-                        pollutionManager.increasePollution(5 * factories); //Adds 5 pollution per second per factory
+                        pollutionManager.increasePollution(5 * factories);
                         gameWindow.winCondition();
                     }
                 });
@@ -168,14 +167,14 @@ public class UpgradeManagement
     public void buyOilDrill(){
         if(moneyManager.getMoney() >= oilDrillCost){
             oilDrills++;
-            moneyManager.decreaseMoney(oilDrillCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(oilDrillCost);
             System.out.println("Oil drilled. Total oil drills: " + oilDrills);
             
             if (oilDrillTimer == null){
                 oilDrillTimer = new Timer(2000, new ActionListener(){ //Adds money every 2000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(oilDrills * oilDrillIncome);
-                        pollutionManager.increasePollution(10 * oilDrills); //Adds 10 pollution per second
+                        pollutionManager.increasePollution(10 * oilDrills);
                         gameWindow.winCondition();
                     }
                 });
@@ -189,14 +188,14 @@ public class UpgradeManagement
     public void buyTruckFleet(){
         if(moneyManager.getMoney() >= truckFleetCost){
             truckFleets++;
-            moneyManager.decreaseMoney(truckFleetCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(truckFleetCost); 
             System.out.println("Truck fleet purchased. Total truck fleets: " + truckFleets);
             
             if (truckFleetTimer == null){
                 truckFleetTimer = new Timer(5000, new ActionListener(){ //Adds money every 5000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(truckFleets * truckFleetIncome);
-                        pollutionManager.increasePollution(5 * truckFleets); //Adds 10 pollution per second
+                        pollutionManager.increasePollution(5 * truckFleets);
                         gameWindow.winCondition();
                     }
                 });
@@ -210,14 +209,14 @@ public class UpgradeManagement
     public void buyChemicalPlant(){
         if(moneyManager.getMoney() >= chemicalPlantCost){
             chemicalPlants++;
-            moneyManager.decreaseMoney(chemicalPlantCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(chemicalPlantCost); 
             System.out.println("Chemical plant purchased. Total chemical plants: " + chemicalPlants);
             
             if (chemicalPlantTimer == null){
                 chemicalPlantTimer = new Timer(2000, new ActionListener(){ //Adds money every 2000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(chemicalPlants * chemicalPlantIncome);
-                        pollutionManager.increasePollution(10 * chemicalPlants); //Adds 10 pollution every 2 second
+                        pollutionManager.increasePollution(10 * chemicalPlants); 
                         gameWindow.winCondition();
                     }
                 });
@@ -231,14 +230,14 @@ public class UpgradeManagement
     public void buyResearchLab(){
         if(moneyManager.getMoney() >= researchLabCost){
             researchLabs++;
-            moneyManager.decreaseMoney(researchLabCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(researchLabCost); 
             System.out.println("Research lab purchaed... upgrading tech... total labs: " + researchLabs);
             
             if (researchLabTimer == null){
                 researchLabTimer = new Timer(1000, new ActionListener(){ //Adds money every 1000ms
                     public void actionPerformed(ActionEvent e){
                         moneyManager.increaseMoney(researchLabs * researchLabIncome);
-                        pollutionManager.increasePollution(15 * researchLabs); //Adds 15 pollution per second
+                        pollutionManager.increasePollution(15 * researchLabs); 
                         gameWindow.winCondition();
                     }
                 });
@@ -265,7 +264,7 @@ public class UpgradeManagement
     public void buySolarPanel(){
         if(moneyManager.getMoney() >= solarPanelCost){
             solarPanels++;
-            moneyManager.decreaseMoney(solarPanelCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(solarPanelCost);
             System.out.println("Solar panel purchased. Total solar panels: " + solarPanels);
             
             if (solarPanelTimer == null){
@@ -284,14 +283,14 @@ public class UpgradeManagement
     public void buyWindTurbine(){
         if(moneyManager.getMoney() >= windTurbineCost){
             windTurbines++;
-            moneyManager.decreaseMoney(windTurbineCost); //decrease money by factory cost
+            moneyManager.decreaseMoney(windTurbineCost);
             System.out.println("Wind turbine purchased. Total turbines: " + windTurbines);
             
             if (windTurbineTimer == null){
                 windTurbineTimer = new Timer(5000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
                         pollutionManager.decreasePollution(2 * windTurbines); 
-                        //removes 20 pollution every 5000ms per wind turbine
+
                     }
                 });
                 windTurbineTimer.start();
@@ -304,14 +303,13 @@ public class UpgradeManagement
     public void buyDam(){
         if(moneyManager.getMoney() >= damCost){
             dams++;
-            moneyManager.decreaseMoney(damCost); //decrease money by dam cost
+            moneyManager.decreaseMoney(damCost);
             System.out.println("Hydroelectic dam purchased. Total dams: " + dams);
             
             if (damTimer == null){
                 damTimer = new Timer(2000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
                         pollutionManager.decreasePollution(10 * dams); 
-                        //removes 10 pollution every 2000ms per dam
                     }
                 });
                 damTimer.start();
@@ -324,14 +322,13 @@ public class UpgradeManagement
     public void buyGeoPlant(){
         if(moneyManager.getMoney() >= geoPlantCost){
             geoPlants++;
-            moneyManager.decreaseMoney(geoPlantCost); //decrease money by geoPlant cost
+            moneyManager.decreaseMoney(geoPlantCost);
             System.out.println("Geothermal plant purchased. Total plants: " + geoPlants);
             
             if (geoPlantTimer == null){
                 geoPlantTimer = new Timer(1000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
-                        pollutionManager.decreasePollution(15 * geoPlants); 
-                        //removes 15 pollution every 1000ms per geo plant
+                        pollutionManager.decreasePollution(15 * geoPlants);
                     }
                 });
                 geoPlantTimer.start();
@@ -344,14 +341,13 @@ public class UpgradeManagement
     public void buyReactor(){
         if(moneyManager.getMoney() >= reactorCost){
             reactors++;
-            moneyManager.decreaseMoney(reactorCost); //decrease money by Reacor cost
+            moneyManager.decreaseMoney(reactorCost);
             System.out.println("Nuclear reactor purchased, good job for keeping the environment clean. Total reactors: " + reactors);
             
             if (nuclearTimer == null){
                 nuclearTimer = new Timer(1000, new ActionListener(){ 
                     public void actionPerformed(ActionEvent e){
                         pollutionManager.decreasePollution(35 * reactors); 
-                        //removes 35 pollution every 1000ms per reactor
                     }
                 });
                 nuclearTimer.start();
